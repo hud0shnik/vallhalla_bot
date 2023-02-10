@@ -146,7 +146,7 @@ func SendErrorMessage(botUrl string, update Update, errorCode int) {
 
 func main() {
 
-	// Инициализация конфига (токенов)
+	// Инициализация конфига
 	err := InitConfig()
 	if err != nil {
 		fmt.Println("Config error: ", err)
@@ -222,7 +222,7 @@ func respond(botUrl string, update Update) error {
 
 	} else {
 
-		// Если пользователь отправил не сообщение и не стикер:
+		// Если пользователь отправил не сообщение
 		SendMsg(botUrl, update, "Пока я воспринимаю только текст")
 		return nil
 
@@ -235,4 +235,9 @@ func InitConfig() error {
 	viper.SetConfigName("config")
 
 	return viper.ReadInConfig()
+}
+// Функция отправки рецепта
+func SendDrink(botUrl string, update Update, drink DrinkInfo) {
+	SendMsg(botUrl, update, fmt.Sprintf(
+		"%s", drink.Name))
 }

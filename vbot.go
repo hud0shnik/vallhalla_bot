@@ -210,6 +210,9 @@ func respond(botUrl string, update Update) error {
 		request := append(strings.Split(update.Message.Text, " "), "", "")
 
 		switch request[0] {
+		case "/search":
+			SendDrinkInfo(botUrl, update, request)
+			return nil
 		case "Живой?", "живой?":
 			SendMsg(botUrl, update, "Живой")
 			SendStck(botUrl, update, "CAACAgIAAxkBAAIdGWKu5rpWxb4gn4dmYi_rRJ9OHM9xAAJ-FgACsS8ISQjT6d1ChY7VJAQ")
@@ -236,6 +239,36 @@ func InitConfig() error {
 
 	return viper.ReadInConfig()
 }
+
+// Функция отправки рецептов
+func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
+
+	// Rest запрос для получения апдейтов
+	resp, err := http.Get("https://vall-halla-api.vercel.app/api/search?shortcut=5xT")
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Запись и обработка полученных данных
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	var response InfoResponse
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return err
+	}
+
+	for _, d := range response.Drinks {
+		SendDrink(botUrl, update, d)
+	}
+
+	return nil
+
+}
+
 // Функция отправки рецепта
 func SendDrink(botUrl string, update Update, drink DrinkInfo) {
 	SendMsg(botUrl, update, fmt.Sprintf(

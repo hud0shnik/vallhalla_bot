@@ -33,8 +33,9 @@ type Chat struct {
 }
 
 type SendMessage struct {
-	ChatId int    `json:"chat_id"`
-	Text   string `json:"text"`
+	ChatId    int    `json:"chat_id"`
+	Text      string `json:"text"`
+	ParseMode string `json:"parse_mode"`
 }
 
 type SendSticker struct {
@@ -53,8 +54,6 @@ type InfoResponse struct {
 type DrinkInfo struct {
 	Name           string `json:"name"`
 	Price          int    `json:"price"`
-	Alcoholic      string `json:"alcoholic"`
-	Ice            string `json:"ice"`
 	Flavour        string `json:"flavour"`
 	Primary_Type   string `json:"primary_type"`
 	Secondary_Type string `json:"secondary_type"`
@@ -68,8 +67,9 @@ func SendMsg(botUrl string, update Update, msg string) error {
 
 	// Формирование сообщения
 	botMessage := SendMessage{
-		ChatId: update.Message.Chat.ChatId,
-		Text:   msg,
+		ChatId:    update.Message.Chat.ChatId,
+		Text:      msg,
+		ParseMode: "HTML",
 	}
 	buf, err := json.Marshal(botMessage)
 	if err != nil {
@@ -244,7 +244,7 @@ func InitConfig() error {
 func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 
 	// Rest запрос для получения апдейтов
-	resp, err := http.Get("https://vall-halla-api.vercel.app/api/search?shortcut=5xT")
+	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?shortcut=5xT")
 	if err != nil {
 		return err
 	}
@@ -272,5 +272,7 @@ func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 // Функция отправки рецепта
 func SendDrink(botUrl string, update Update, drink DrinkInfo) {
 	SendMsg(botUrl, update, fmt.Sprintf(
-		"%s", drink.Name))
+		"%s\nIt's a <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong> drink coasting <strong>$%d</strong>\n"+
+			"<b>Recipe</b> - %s\n<b>Shortcut</b> - %s\n\n<i>\"%s\"</i>",
+		drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 }

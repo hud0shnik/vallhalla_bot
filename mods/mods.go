@@ -59,7 +59,7 @@ func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 // Функция отправки рецепта
 func SendDrink(botUrl string, update Update, drink DrinkInfo) {
 	SendMsg(botUrl, update, fmt.Sprintf(
-		"%s\nIt's a <strong>%s</strong>, <strong>%s</strong> and <strong>%s</strong> drink coasting <strong>$%d</strong>\n"+
-			"<b>Recipe</b> - %s\n<b>Shortcut</b> - %s\n\n<i>\"%s\"</i>",
+		"<pre>%s</pre>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
+			"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
 		drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 }

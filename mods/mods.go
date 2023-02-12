@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // Структура респонса
@@ -30,7 +31,7 @@ type DrinkInfo struct {
 func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 
 	// Rest запрос для получения апдейтов
-	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?shortcut=5xT")
+	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
 	if err != nil {
 		return err
 	}

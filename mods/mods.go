@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -28,24 +29,25 @@ type DrinkInfo struct {
 }
 
 // Функция отправки рецептов
-func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
+func SendDrinkInfo(botUrl string, update Update, parameters []string) {
 
 	// Rest запрос для получения апдейтов
 	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
 	if err != nil {
-		return err
+		log.Printf("http.Get error: %s", err)
 	}
 	defer resp.Body.Close()
 
 	// Запись и обработка полученных данных
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		log.Printf("ioutil.ReadAll error: %s", err)
 	}
 	var response InfoResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		return err
+		log.Printf("json.Unmarshal error: %s", err)
+
 	}
 
 	// Отправка коктейлей
@@ -56,7 +58,5 @@ func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 
 	}
-
-	return nil
 
 }

@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,8 +17,7 @@ func main() {
 	// Инициализация конфига
 	err := InitConfig()
 	if err != nil {
-		fmt.Println("Config error: ", err)
-		return
+		log.Fatalf("initConfig error: %s", err)
 	}
 
 	// Url бота для отправки и приёма сообщений
@@ -31,7 +30,7 @@ func main() {
 		// Получение апдейтов
 		updates, err := getUpdates(botUrl, offSet)
 		if err != nil {
-			fmt.Println("Something went wrong: ", err)
+			log.Fatalf("getUpdates error: %s", err)
 		}
 
 		// Обработка апдейтов
@@ -48,7 +47,7 @@ func main() {
 // Функция получения апдейтов
 func getUpdates(botUrl string, offset int) ([]mods.Update, error) {
 
-	// Rest запрос для получения апдейтов
+	// Запрос для получения апдейтов
 	resp, err := http.Get(botUrl + "/getUpdates?offset=" + strconv.Itoa(offset))
 	if err != nil {
 		return nil, err

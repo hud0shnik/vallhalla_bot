@@ -69,32 +69,28 @@ func getUpdates(botUrl string, offset int) ([]mods.Update, error) {
 }
 
 // Функция генерации и отправки ответа
-func respond(botUrl string, update mods.Update) error {
+func respond(botUrl string, update mods.Update) {
 
 	// Обработчик команд
 	if update.Message.Text != "" {
 
-		request := append(strings.Split(update.Message.Text, " "), "", "")
+		request := strings.Split(update.Message.Text, " ")
 
 		switch request[0] {
 		case "/search":
 			mods.SendDrinkInfo(botUrl, update, request)
-			return nil
+
 		case "/help", "/start":
 			mods.SendMsg(botUrl, update, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")
 			mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBOmPrgHU_dc2p5aNX_s2tbo8MytiNAAKDAQAC5y5hCC7gW3lr-iVQLgQ")
-			return nil
+		default:
+			mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
 		}
-
-		// Дефолтный ответ
-		mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
-		return nil
 
 	} else {
 
 		// Если пользователь отправил не сообщение
 		mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBI2PrfKjtI2x-jY1WAs5MjFRBm6JwAAInAAOldjoOspa6vsFKQhkuBA")
-		return nil
 
 	}
 }

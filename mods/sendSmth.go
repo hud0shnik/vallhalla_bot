@@ -21,8 +21,14 @@ type Update struct {
 }
 
 type Message struct {
-	Chat Chat   `json:"chat"`
-	Text string `json:"text"`
+	Chat    Chat    `json:"chat"`
+	Text    string  `json:"text"`
+	Sticker Sticker `json:"sticker"`
+}
+
+type Sticker struct {
+	FileId       string `json:"file_id"`
+	FileUniqueId string `json:"file_unique_id"`
 }
 
 type Chat struct {

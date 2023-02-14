@@ -83,20 +83,18 @@ func respond(botUrl string, update mods.Update) error {
 			return nil
 		case "/help", "/start":
 			mods.SendMsg(botUrl, update, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")
-		case "Живой?", "живой?":
-			mods.SendMsg(botUrl, update, "Живой")
-			mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIdGWKu5rpWxb4gn4dmYi_rRJ9OHM9xAAJ-FgACsS8ISQjT6d1ChY7VJAQ")
+			mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBOmPrgHU_dc2p5aNX_s2tbo8MytiNAAKDAQAC5y5hCC7gW3lr-iVQLgQ")
 			return nil
 		}
 
 		// Дефолтный ответ
-		mods.SendMsg(botUrl, update, "OwO")
+		mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
 		return nil
 
 	} else {
 
 		// Если пользователь отправил не сообщение
-		mods.SendMsg(botUrl, update, "Пока я воспринимаю только текст")
+		mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIBI2PrfKjtI2x-jY1WAs5MjFRBm6JwAAInAAOldjoOspa6vsFKQhkuBA")
 		return nil
 
 	}

@@ -48,18 +48,15 @@ func SendDrinkInfo(botUrl string, update Update, parameters []string) error {
 		return err
 	}
 
-	for _, d := range response.Drinks {
-		SendDrink(botUrl, update, d)
+	// Отправка коктейлей
+	for _, drink := range response.Drinks {
+		SendMsg(botUrl, update, fmt.Sprintf(
+			"<pre>%s</pre>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
+				"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
+			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
+
 	}
 
 	return nil
 
-}
-
-// Функция отправки рецепта
-func SendDrink(botUrl string, update Update, drink DrinkInfo) {
-	SendMsg(botUrl, update, fmt.Sprintf(
-		"<pre>%s</pre>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
-			"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
-		drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 }

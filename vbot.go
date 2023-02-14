@@ -83,7 +83,6 @@ func respond(botUrl string, update mods.Update) error {
 			return nil
 		case "/help", "/start":
 			mods.SendMsg(botUrl, update, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")
-			return nil
 		case "Живой?", "живой?":
 			mods.SendMsg(botUrl, update, "Живой")
 			mods.SendStck(botUrl, update, "CAACAgIAAxkBAAIdGWKu5rpWxb4gn4dmYi_rRJ9OHM9xAAJ-FgACsS8ISQjT6d1ChY7VJAQ")

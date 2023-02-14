@@ -3,10 +3,8 @@ package mods
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
-
-	"github.com/spf13/viper"
 )
 
 // Структуры для работы с Telegram API
@@ -57,16 +55,14 @@ func SendMsg(botUrl string, update Update, msg string) error {
 	}
 	buf, err := json.Marshal(botMessage)
 	if err != nil {
-		fmt.Println("Marshal json error: ", err)
-		SendErrorMessage(botUrl, update, 2)
+		log.Printf("json.Marshal error: %s", err)
 		return err
 	}
 
 	// Отправка сообщения
 	_, err = http.Post(botUrl+"/sendMessage", "application/json", bytes.NewBuffer(buf))
 	if err != nil {
-		fmt.Println("SendMessage method error: ", err)
-		SendErrorMessage(botUrl, update, 5)
+		log.Printf("sendMessage error: %s", err)
 		return err
 	}
 	return nil
@@ -82,48 +78,14 @@ func SendStck(botUrl string, update Update, url string) error {
 	}
 	buf, err := json.Marshal(botStickerMessage)
 	if err != nil {
-		fmt.Println("Marshal json error: ", err)
-		SendErrorMessage(botUrl, update, 2)
+		log.Printf("json.Marshal error: %s", err)
 		return err
 	}
 	// Отправка стикера
 	_, err = http.Post(botUrl+"/sendSticker", "application/json", bytes.NewBuffer(buf))
 	if err != nil {
-		fmt.Println("SendSticker method error: ", err)
-		SendErrorMessage(botUrl, update, 3)
+		log.Printf("sendSticker error: %s", err)
 		return err
 	}
 	return nil
-}
-
-// Функция отправки сообщений об ошибках
-func SendErrorMessage(botUrl string, update Update, errorCode int) {
-
-	// Генерация текста ошибки по коду
-	var result string
-	switch errorCode {
-	case 1:
-		result = "Ошибка работы API"
-	case 2:
-		result = "Ошибка работы json.Marshal()"
-	case 3:
-		result = "Ошибка работы метода SendSticker"
-	case 4:
-		result = "Ошибка работы метода SendPhoto"
-	case 5:
-		result = "Ошибка работы метода SendMessage"
-	case 6:
-		result = "Ошибка работы stickers.json"
-	default:
-		result = "Неизвестная ошибка"
-	}
-
-	// Анонимное оповещение меня
-	var updateDanya Update
-	updateDanya.Message.Chat.ChatId = viper.GetInt("DanyaChatId")
-	SendMsg(botUrl, updateDanya, "Дань, тут у одного из пользователей "+result+", надеюсь он скоро тебе о ней напишет.")
-
-	// Вывод ошибки пользователю с просьбой связаться со мной для её устранения
-	result += ", пожалуйста свяжитесь с моим создателем для устранения проблемы\n\nhttps://vk.com/hud0shnik\nhttps://vk.com/hud0shnik\nhttps://vk.com/hud0shnik"
-	SendMsg(botUrl, update, result)
 }

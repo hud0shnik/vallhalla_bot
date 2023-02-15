@@ -77,7 +77,7 @@ func respond(botUrl string, update mods.Update) {
 		request := strings.Split(update.Message.Text, " ")
 
 		switch request[0] {
-		case "/search":
+		case "/search", "/info", "search", "s", "/s":
 			mods.SearchDrinks(botUrl, update, request)
 		case "/help", "/start":
 			mods.SendMsg(botUrl, update, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")

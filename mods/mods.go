@@ -55,7 +55,7 @@ func SearchDrinks(botUrl string, update Update, parameters []string) {
 	// Проверка на респонс
 	if len(response.Drinks) == 0 {
 		SendMsg(botUrl, update, "Drinks not found")
-		SendMsg(botUrl, update, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
+		SendStck(botUrl, update, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
 	} else {
 		// Отправка коктейлей
 		for _, drink := range response.Drinks {

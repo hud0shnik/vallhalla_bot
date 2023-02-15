@@ -29,7 +29,7 @@ type DrinkInfo struct {
 }
 
 // Функция отправки рецептов
-func SendDrinkInfo(botUrl string, update Update, parameters []string) {
+func SearchDrinks(botUrl string, update Update, parameters []string) {
 
 	// Rest запрос для получения апдейтов
 	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
@@ -47,7 +47,6 @@ func SendDrinkInfo(botUrl string, update Update, parameters []string) {
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Printf("json.Unmarshal error: %s", err)
-
 	}
 
 	// Отправка коктейлей

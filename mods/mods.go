@@ -48,14 +48,22 @@ func SearchDrinks(botUrl string, update Update, parameters []string) {
 	if err != nil {
 		log.Printf("json.Unmarshal error: %s", err)
 	}
+	if response.Success != true {
+		log.Printf("vall-halla-api error: %s", response.Error)
+	}
 
-	// Отправка коктейлей
-	for _, drink := range response.Drinks {
-		SendMsg(botUrl, update, fmt.Sprintf(
-			"<pre>%s</pre>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
-				"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
-			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
-
+	// Проверка на респонс
+	if len(response.Drinks) == 0 {
+		SendMsg(botUrl, update, "Drinks not found")
+		SendMsg(botUrl, update, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
+	} else {
+		// Отправка коктейлей
+		for _, drink := range response.Drinks {
+			SendMsg(botUrl, update, fmt.Sprintf(
+				"<pre>%s</pre>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
+					"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
+				drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
+		}
 	}
 
 }

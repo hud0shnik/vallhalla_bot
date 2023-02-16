@@ -20,6 +20,9 @@
 <h3 align="left">📄 О самом проекте:</h3>
 Бот для поиска рецептов из игры <a href="https://store.steampowered.com/app/447530/VA11_HallA_Cyberpunk_Bartender_Action/">VA-11 Hall-A: Cyberpunk Bartender Action</a>. Данные берёт у <a href="https://github.com/hud0shnik/VallHalla-api">VallHalla-api</a>. Поддерживает поиск по вкусу, типам, рецепту, содержанию льда и алкоголя, названию и художественному описанию.
 
+<h3 align="left">📷 Скриншот:</h3>
+<img src="https://github.com/hud0shnik/VallHalla_bot/blob/main/screenshot.png"/>
+
 <h3 align="left">🔗 Ссылка на бота:</h3>
 <h1 align="center">
    <a href="https://t.me/VallHallaApi_bot" target="_blank"><img src="https://img.icons8.com/external-vitaliy-gorbachev-blue-vitaly-gorbachev/60/000000/external-robot-support-vitaliy-gorbachev-blue-vitaly-gorbachev.png" alt="telegram" width="60" height="60"/></a>

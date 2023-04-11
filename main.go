@@ -74,6 +74,8 @@ type DrinkInfo struct {
 
 // Функция инициализации конфига (всех токенов)
 func initConfig() error {
+
+	// Путь и имя файла
 	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
 
@@ -100,6 +102,7 @@ func sendMsg(chatId int, msg string) error {
 		log.Printf("sendMessage error: %s", err)
 		return err
 	}
+
 	return nil
 }
 
@@ -115,19 +118,21 @@ func sendStck(chatId int, url string) error {
 		log.Printf("json.Marshal error: %s", err)
 		return err
 	}
+
 	// Отправка стикера
 	_, err = http.Post(BotUrl+"/sendSticker", "application/json", bytes.NewBuffer(buf))
 	if err != nil {
 		log.Printf("sendSticker error: %s", err)
 		return err
 	}
+
 	return nil
 }
 
 // Функция отправки рецептов
 func searchDrinks(chatId int, parameters []string) {
 
-	// Rest запрос для получения апдейтов
+	// Запрос для получения рецептов
 	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
 	if err != nil {
 		log.Printf("http.Get error: %s", err)
@@ -166,11 +171,13 @@ func searchDrinks(chatId int, parameters []string) {
 // Функция генерации и отправки ответа
 func respond(update Update) {
 
-	// Обработчик команд
+	// Проверка на сообщение
 	if update.Message.Text != "" {
 
+		// Разделение текста пользователя на слайс
 		request := strings.Split(update.Message.Text, " ")
 
+		// Обработчик команд
 		switch request[0] {
 		case "/search", "/info", "search", "s", "/s":
 			searchDrinks(update.Message.Chat.ChatId, request)

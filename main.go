@@ -136,21 +136,31 @@ func searchDrinks(chatId int, parameters []string) {
 	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
 	if err != nil {
 		log.Printf("http.Get error: %s", err)
+		sendMsg(chatId, "vall-halla-api error")
+		return
 	}
 	defer resp.Body.Close()
+
+	// Проверка статускода респонса
+	if resp.StatusCode != 200 {
+		log.Printf("vall-halla-api error: %d", resp.StatusCode)
+		sendMsg(chatId, "internal error")
+		return
+	}
 
 	// Запись и обработка полученных данных
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Printf("ioutil.ReadAll error: %s", err)
+		sendMsg(chatId, "internal error")
+		return
 	}
 	var response InfoResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Printf("json.Unmarshal error: %s", err)
-	}
-	if response.Success != true {
-		log.Printf("vall-halla-api error: %s", response.Error)
+		sendMsg(chatId, "internal error")
+		return
 	}
 
 	// Проверка на респонс
@@ -158,6 +168,7 @@ func searchDrinks(chatId int, parameters []string) {
 		sendMsg(chatId, "Drinks not found")
 		sendStck(chatId, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
 	} else {
+
 		// Отправка коктейлей
 		for _, drink := range response.Drinks {
 			sendMsg(chatId, fmt.Sprintf(

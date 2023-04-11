@@ -53,7 +53,7 @@ type SendSticker struct {
 	StickerUrl string `json:"sticker"`
 }
 
-// Структура респонса API
+// Структура респонса vall-halla-api
 type InfoResponse struct {
 	Success bool        `json:"success"`
 	Error   string      `json:"error"`
@@ -258,7 +258,5 @@ func main() {
 			offSet = update.UpdateId + 1
 		}
 
-		// Вывод в консоль для тестов
-		// fmt.Println(updates)
 	}
 }

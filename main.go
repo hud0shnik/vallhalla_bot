@@ -237,6 +237,7 @@ func main() {
 	err := initConfig()
 	if err != nil {
 		log.Fatalf("initConfig error: %s", err)
+		return
 	}
 
 	// Url бота для отправки и приёма сообщений
@@ -250,6 +251,7 @@ func main() {
 		updates, err := getUpdates(offSet)
 		if err != nil {
 			log.Fatalf("getUpdates error: %s", err)
+			return
 		}
 
 		// Обработка апдейтов

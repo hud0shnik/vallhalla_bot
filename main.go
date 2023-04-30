@@ -18,50 +18,50 @@ var BotUrl string
 
 // Структуры для работы с Telegram API
 
-type TelegramResponse struct {
-	Result []Update `json:"result"`
+type telegramResponse struct {
+	Result []update `json:"result"`
 }
 
-type Update struct {
+type update struct {
 	UpdateId int     `json:"update_id"`
-	Message  Message `json:"message"`
+	Message  message `json:"message"`
 }
 
-type Message struct {
-	Chat    Chat    `json:"chat"`
+type message struct {
+	Chat    chat    `json:"chat"`
 	Text    string  `json:"text"`
-	Sticker Sticker `json:"sticker"`
+	Sticker sticker `json:"sticker"`
 }
 
-type Sticker struct {
+type sticker struct {
 	FileId       string `json:"file_id"`
 	FileUniqueId string `json:"file_unique_id"`
 }
 
-type Chat struct {
+type chat struct {
 	ChatId int `json:"id"`
 }
 
-type SendMessage struct {
+type sendMessage struct {
 	ChatId    int    `json:"chat_id"`
 	Text      string `json:"text"`
 	ParseMode string `json:"parse_mode"`
 }
 
-type SendSticker struct {
+type sendSticker struct {
 	ChatId     int    `json:"chat_id"`
 	StickerUrl string `json:"sticker"`
 }
 
 // Структура респонса vall-halla-api
-type InfoResponse struct {
+type infoResponse struct {
 	Success bool        `json:"success"`
 	Error   string      `json:"error"`
-	Drinks  []DrinkInfo `json:"result"`
+	Drinks  []drinkInfo `json:"result"`
 }
 
 // Структура коктейля
-type DrinkInfo struct {
+type drinkInfo struct {
 	Name           string `json:"name"`
 	Price          int    `json:"price"`
 	Flavour        string `json:"flavour"`
@@ -80,13 +80,14 @@ func initConfig() error {
 	viper.SetConfigName("config")
 
 	return viper.ReadInConfig()
+
 }
 
 // Функция отправки сообщения
 func sendMsg(chatId int, msg string) error {
 
 	// Формирование сообщения
-	buf, err := json.Marshal(SendMessage{
+	buf, err := json.Marshal(sendMessage{
 		ChatId:    chatId,
 		Text:      msg,
 		ParseMode: "HTML",
@@ -104,13 +105,14 @@ func sendMsg(chatId int, msg string) error {
 	}
 
 	return nil
+
 }
 
 // Функция отправки стикера
 func sendStck(chatId int, url string) error {
 
 	// Формирование стикера
-	buf, err := json.Marshal(SendSticker{
+	buf, err := json.Marshal(sendSticker{
 		ChatId:     chatId,
 		StickerUrl: url,
 	})
@@ -127,6 +129,7 @@ func sendStck(chatId int, url string) error {
 	}
 
 	return nil
+
 }
 
 // Функция отправки рецептов
@@ -155,7 +158,7 @@ func searchDrinks(chatId int, parameters []string) {
 		sendMsg(chatId, "internal error")
 		return
 	}
-	var response InfoResponse
+	var response infoResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Printf("json.Unmarshal error: %s", err)
@@ -177,10 +180,11 @@ func searchDrinks(chatId int, parameters []string) {
 				drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 		}
 	}
+
 }
 
 // Функция генерации и отправки ответа
-func respond(update Update) {
+func respond(update update) {
 
 	// Проверка на сообщение
 	if update.Message.Text != "" {
@@ -205,10 +209,11 @@ func respond(update Update) {
 		sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBI2PrfKjtI2x-jY1WAs5MjFRBm6JwAAInAAOldjoOspa6vsFKQhkuBA")
 
 	}
+
 }
 
 // Функция получения апдейтов
-func getUpdates(offset int) ([]Update, error) {
+func getUpdates(offset int) ([]update, error) {
 
 	// Запрос для получения апдейтов
 	resp, err := http.Get(BotUrl + "/getUpdates?offset=" + strconv.Itoa(offset))
@@ -222,13 +227,14 @@ func getUpdates(offset int) ([]Update, error) {
 	if err != nil {
 		return nil, err
 	}
-	var restResponse TelegramResponse
+	var restResponse telegramResponse
 	err = json.Unmarshal(body, &restResponse)
 	if err != nil {
 		return nil, err
 	}
 
 	return restResponse.Result, nil
+
 }
 
 func main() {
@@ -261,4 +267,5 @@ func main() {
 		}
 
 	}
+
 }

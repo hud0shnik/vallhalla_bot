@@ -14,7 +14,7 @@ import (
 )
 
 // Глобальный Url бота
-var BotUrl string
+var botUrl string
 
 // Структуры для работы с Telegram API
 
@@ -84,12 +84,12 @@ func initConfig() error {
 }
 
 // Функция отправки сообщения
-func sendMsg(chatId int, msg string) error {
+func sendMsg(chatId int, text string) error {
 
 	// Формирование сообщения
 	buf, err := json.Marshal(sendMessage{
 		ChatId:    chatId,
-		Text:      msg,
+		Text:      text,
 		ParseMode: "HTML",
 	})
 	if err != nil {
@@ -98,7 +98,7 @@ func sendMsg(chatId int, msg string) error {
 	}
 
 	// Отправка сообщения
-	_, err = http.Post(BotUrl+"/sendMessage", "application/json", bytes.NewBuffer(buf))
+	_, err = http.Post(botUrl+"/sendMessage", "application/json", bytes.NewBuffer(buf))
 	if err != nil {
 		log.Printf("sendMessage error: %s", err)
 		return err
@@ -109,12 +109,12 @@ func sendMsg(chatId int, msg string) error {
 }
 
 // Функция отправки стикера
-func sendStck(chatId int, url string) error {
+func sendStck(chatId int, stickerId string) error {
 
 	// Формирование стикера
 	buf, err := json.Marshal(sendSticker{
 		ChatId:     chatId,
-		StickerUrl: url,
+		StickerUrl: stickerId,
 	})
 	if err != nil {
 		log.Printf("json.Marshal error: %s", err)
@@ -122,7 +122,7 @@ func sendStck(chatId int, url string) error {
 	}
 
 	// Отправка стикера
-	_, err = http.Post(BotUrl+"/sendSticker", "application/json", bytes.NewBuffer(buf))
+	_, err = http.Post(botUrl+"/sendSticker", "application/json", bytes.NewBuffer(buf))
 	if err != nil {
 		log.Printf("sendSticker error: %s", err)
 		return err
@@ -144,9 +144,18 @@ func searchDrinks(chatId int, parameters []string) {
 	}
 	defer resp.Body.Close()
 
-	// Проверка статускода респонса
-	if resp.StatusCode != 200 {
-		log.Printf("vall-halla-api error: %d", resp.StatusCode)
+	// Проверка статускода
+	switch resp.StatusCode {
+	case 200:
+		// При хорошем статусе респонса продолжение выполнения кода
+	case 404:
+		sendMsg(chatId, "drinks not found")
+		sendStck(chatId, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
+		return
+	case 400:
+		sendMsg(chatId, "bad request")
+		return
+	default:
 		sendMsg(chatId, "internal error")
 		return
 	}
@@ -166,19 +175,12 @@ func searchDrinks(chatId int, parameters []string) {
 		return
 	}
 
-	// Проверка на респонс
-	if len(response.Drinks) == 0 {
-		sendMsg(chatId, "Drinks not found")
-		sendStck(chatId, "CAACAgIAAxkBAAIBx2PriuCsDDVv8tcdbqZ42v90M8WeAAIzAQAC5y5hCNndnbfZVPwxLgQ")
-	} else {
-
-		// Отправка коктейлей
-		for _, drink := range response.Drinks {
-			sendMsg(chatId, fmt.Sprintf(
-				"<b><pre>%s</pre><b>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
-					"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
-				drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
-		}
+	// Отправка коктейлей
+	for _, drink := range response.Drinks {
+		sendMsg(chatId, fmt.Sprintf(
+			"<b><pre>%s</pre><b>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
+				"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
+			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 	}
 
 }
@@ -216,7 +218,7 @@ func respond(update update) {
 func getUpdates(offset int) ([]update, error) {
 
 	// Запрос для получения апдейтов
-	resp, err := http.Get(BotUrl + "/getUpdates?offset=" + strconv.Itoa(offset))
+	resp, err := http.Get(botUrl + "/getUpdates?offset=" + strconv.Itoa(offset))
 	if err != nil {
 		return nil, err
 	}
@@ -247,7 +249,7 @@ func main() {
 	}
 
 	// Url бота для отправки и приёма сообщений
-	BotUrl = "https://api.telegram.org/bot" + viper.GetString("token")
+	botUrl = "https://api.telegram.org/bot" + viper.GetString("token")
 	offSet := 0
 
 	// Цикл работы бота

@@ -189,29 +189,24 @@ func searchDrinks(chatId int, parameters []string) {
 func respond(update update) {
 
 	// Проверка на сообщение
-	if update.Message.Text != "" {
-
-		// Разделение текста пользователя на слайс
-		request := strings.Split(update.Message.Text, " ")
-
-		// Обработчик команд
-		switch request[0] {
-		case "/search", "/info", "search", "s", "/s":
-			searchDrinks(update.Message.Chat.ChatId, request)
-		case "/help", "/start":
-			sendMsg(update.Message.Chat.ChatId, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")
-			sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBOmPrgHU_dc2p5aNX_s2tbo8MytiNAAKDAQAC5y5hCC7gW3lr-iVQLgQ")
-		default:
-			sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
-		}
-
-	} else {
-
-		// Если пользователь отправил не сообщение
+	if update.Message.Text == "" {
 		sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBI2PrfKjtI2x-jY1WAs5MjFRBm6JwAAInAAOldjoOspa6vsFKQhkuBA")
-
+		return
 	}
 
+	// Разделение текста пользователя на слайс
+	request := strings.Split(update.Message.Text, " ")
+
+	// Обработчик команд
+	switch request[0] {
+	case "/search", "/info", "search", "s", "/s":
+		searchDrinks(update.Message.Chat.ChatId, request)
+	case "/help", "/start":
+		sendMsg(update.Message.Chat.ChatId, "Syntax:\n<b>/search alcoholic=no flavour=spicy</b> - <i>all non-alcoholic spicy drinks</i>\n<b>/search type=promo shortcut=3xT</b> - <i>all promo drinks with 3 Karmotrine</i>\n<b>/search name=piano</b> - <i>\"Piano Man\" and \"Piano Woman\" recieps</i>\n\n You can also use\n	<b>/search ice=yes&price=280&description=champaigne</b>")
+		sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBOmPrgHU_dc2p5aNX_s2tbo8MytiNAAKDAQAC5y5hCC7gW3lr-iVQLgQ")
+	default:
+		sendStck(update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
+	}
 }
 
 // Функция получения апдейтов

@@ -194,6 +194,12 @@ func respond(update update) {
 		return
 	}
 
+	// Проверка на манипуляции с БД
+	if strings.ContainsAny(update.Message.Text, "`'%+$") {
+		sendMsg(update.Message.Chat.ChatId, "Bad request")
+		return
+	}
+
 	// Разделение текста пользователя на слайс
 	request := strings.Split(update.Message.Text, " ")
 

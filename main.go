@@ -178,7 +178,7 @@ func searchDrinks(chatId int, parameters []string) {
 	// Отправка коктейлей
 	for _, drink := range response.Drinks {
 		sendMsg(chatId, fmt.Sprintf(
-			"<b><pre>%s</pre><b>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
+			"<b><pre>%s</pre></b>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
 				"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
 			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 	}

@@ -20,6 +20,19 @@
 <h3 align="left">📄 О самом проекте:</h3>
 Бот для поиска рецептов из игры <a href="https://store.steampowered.com/app/447530/VA11_HallA_Cyberpunk_Bartender_Action/">VA-11 Hall-A: Cyberpunk Bartender Action</a>. Данные берёт у <a href="https://github.com/hud0shnik/VallHalla-api">VallHalla-api</a>. Поддерживает поиск по вкусу, типам, рецепту, содержанию льда и алкоголя, названию и художественному описанию.
 
+<h3 align="left">🐋 Запуск в Docker:</h3>
+
+Бота можно запустить в Docker-контейнере. Для этого нужно собрать проект:
+
+``` Docker
+docker build -t vallhalla_bot .
+```
+И запустить:
+
+``` Docker
+docker run vallhalla_bot
+```
+
 <h3 align="left">📷 Скриншот:</h3>
 <img src="https://github.com/hud0shnik/VallHalla_bot/blob/main/screenshot.png"/>
 

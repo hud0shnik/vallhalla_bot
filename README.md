@@ -34,7 +34,8 @@ docker run vallhalla_bot
 ```
 
 <h3 align="left">📷 Скриншот:</h3>
-<img src="https://github.com/hud0shnik/VallHalla_bot/blob/main/screenshot.png"/>
+
+<img src="https://github.com/hud0shnik/VallHalla_bot/assets/42404892/00548186-0bcf-4930-97f3-115e6ba32e55"/>
 
 <h3 align="left">🔗 Ссылка на бота:</h3>
 <h1 align="center">

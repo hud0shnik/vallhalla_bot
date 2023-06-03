@@ -1,4 +1,4 @@
-module vallHallaBot
+module github.com/hud0shnik/VallHalla_bot
 
 go 1.19
 

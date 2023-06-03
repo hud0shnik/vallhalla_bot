@@ -7,7 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"vallHallaBot/internal/send"
+
+	"github.com/hud0shnik/VallHalla_bot/internal/send"
 )
 
 // Структура респонса vall-halla-api

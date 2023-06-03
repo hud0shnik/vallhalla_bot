@@ -2,9 +2,10 @@ package main
 
 import (
 	"log"
-	"vallHallaBot/internal/config"
-	"vallHallaBot/internal/handler"
-	"vallHallaBot/internal/telegram"
+
+	"github.com/hud0shnik/VallHalla_bot/internal/config"
+	"github.com/hud0shnik/VallHalla_bot/internal/handler"
+	"github.com/hud0shnik/VallHalla_bot/internal/telegram"
 
 	"github.com/spf13/viper"
 )

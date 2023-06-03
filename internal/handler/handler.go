@@ -2,9 +2,10 @@ package handler
 
 import (
 	"strings"
-	"vallHallaBot/internal/api"
-	"vallHallaBot/internal/send"
-	"vallHallaBot/internal/telegram"
+
+	"github.com/hud0shnik/VallHalla_bot/internal/api"
+	"github.com/hud0shnik/VallHalla_bot/internal/send"
+	"github.com/hud0shnik/VallHalla_bot/internal/telegram"
 )
 
 // Функция генерации и отправки ответа
@@ -35,4 +36,5 @@ func Respond(botUrl string, update telegram.Update) {
 	default:
 		send.SendStck(botUrl, update.Message.Chat.ChatId, "CAACAgIAAxkBAAIBRWPrgSjoO8gZfTKgA2N6vXGpo1fNAAK_AAPnLmEI82NgLSCbuiMuBA")
 	}
+
 }

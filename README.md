@@ -13,6 +13,9 @@
 <!-- Visual Studio Code -->
 <a href="https://code.visualstudio.com/" target="_blank">
 <img src="https://img.icons8.com/fluent/48/000000/visual-studio-code-2019.png" alt="vs code" width="40" height="40"/></a>
+<!-- Docker -->
+<a href="https://github.com/hud0shnik/golang-to-do" >
+<img src="https://img.icons8.com/fluency/48/000000/docker.png" alt="Docker" width="40" height="40"/></a>
 <!-- Ubuntu -->
 <a href="https://ubuntu.com/" target="_blank">
 <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/ubuntu/ubuntu.png" alt="Ubuntu" width="40" height="40"/></a>
@@ -24,13 +27,13 @@
 
 Бота можно запустить в Docker-контейнере. Для этого нужно собрать проект:
 
-``` Docker
+```
 docker build -t vallhalla_bot .
 ```
 И запустить:
 
-``` Docker
-docker run vallhalla_bot
+```
+docker run -e TOKEN="<token_value>" vallhalla_bot
 ```
 
 <h3 align="left">📷 Скриншот:</h3>

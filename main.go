@@ -1,12 +1,12 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/hud0shnik/VallHalla_bot/internal/handler"
 	"github.com/hud0shnik/VallHalla_bot/internal/telegram"
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		// Получение апдейтов
 		updates, err := telegram.GetUpdates(botUrl, offSet)
 		if err != nil {
-			log.Fatalf("getUpdates error: %s", err)
+			logrus.Fatalf("getUpdates error: %s", err)
 			return
 		}
 

@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 
 	"github.com/hud0shnik/VallHalla_bot/internal/send"
+	"github.com/sirupsen/logrus"
 )
 
 // Структура респонса vall-halla-api
@@ -36,7 +36,7 @@ func SearchDrinks(botUrl string, chatId int, parameters []string) {
 	// Запрос для получения рецептов
 	resp, err := http.Get("https://vall-halla-api.vercel.app/api/info?" + strings.Join(parameters[1:], "&"))
 	if err != nil {
-		log.Printf("http.Get error: %s", err)
+		logrus.Printf("http.Get error: %s", err)
 		send.SendMsg(botUrl, chatId, "vall-halla-api error")
 		return
 	}
@@ -61,14 +61,14 @@ func SearchDrinks(botUrl string, chatId int, parameters []string) {
 	// Запись и обработка полученных данных
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Printf("ioutil.ReadAll error: %s", err)
+		logrus.Printf("ioutil.ReadAll error: %s", err)
 		send.SendMsg(botUrl, chatId, "internal error")
 		return
 	}
 	var response infoResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		log.Printf("json.Unmarshal error: %s", err)
+		logrus.Printf("json.Unmarshal error: %s", err)
 		send.SendMsg(botUrl, chatId, "internal error")
 		return
 	}

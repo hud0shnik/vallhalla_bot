@@ -1,4 +1,4 @@
-package send
+package telegram
 
 import (
 	"bytes"
@@ -8,12 +8,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Структура для отправки сообщения
 type sendMessage struct {
 	ChatId    int    `json:"chat_id"`
 	Text      string `json:"text"`
 	ParseMode string `json:"parse_mode"`
 }
 
+// Структура для отправки стикера
 type sendSticker struct {
 	ChatId     int    `json:"chat_id"`
 	StickerUrl string `json:"sticker"`

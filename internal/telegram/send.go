@@ -8,20 +8,20 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Структура для отправки сообщения
+// sendMessage - структура для отправки сообщения
 type sendMessage struct {
 	ChatId    int    `json:"chat_id"`
 	Text      string `json:"text"`
 	ParseMode string `json:"parse_mode"`
 }
 
-// Структура для отправки стикера
+// sendSticker - структура для отправки стикера
 type sendSticker struct {
 	ChatId     int    `json:"chat_id"`
 	StickerUrl string `json:"sticker"`
 }
 
-// Функция отправки сообщения
+// SendMsg - функция отправки сообщения
 func SendMsg(botUrl string, chatId int, text string) error {
 
 	// Формирование сообщения
@@ -46,7 +46,7 @@ func SendMsg(botUrl string, chatId int, text string) error {
 
 }
 
-// Функция отправки стикера
+// SendStck - функция отправки стикера
 func SendStck(botUrl string, chatId int, stickerId string) error {
 
 	// Формирование стикера

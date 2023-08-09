@@ -7,33 +7,36 @@ import (
 	"strconv"
 )
 
-// Структуры для получения обновлений
-
+// telegramResponse - структура ответа
 type telegramResponse struct {
 	Result []Update `json:"result"`
 }
 
+// Update - структура обновления
 type Update struct {
 	UpdateId int     `json:"update_id"`
 	Message  Message `json:"message"`
 }
 
+// Message - структура сообщения
 type Message struct {
 	Chat    Chat    `json:"chat"`
 	Text    string  `json:"text"`
 	Sticker Sticker `json:"sticker"`
 }
 
+// Sticker - структура стикера
 type Sticker struct {
 	FileId       string `json:"file_id"`
 	FileUniqueId string `json:"file_unique_id"`
 }
 
+// Chat - структура чата
 type Chat struct {
 	ChatId int `json:"id"`
 }
 
-// Функция получения апдейтов
+// GetUpdates - функция получения апдейтов
 func GetUpdates(botUrl string, offset int) ([]Update, error) {
 
 	// Запрос для получения апдейтов

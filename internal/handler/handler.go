@@ -7,7 +7,7 @@ import (
 	"github.com/hud0shnik/VallHalla_bot/internal/telegram"
 )
 
-// Функция генерации и отправки ответа
+// Respond - функция генерации и отправки ответа
 func Respond(botUrl string, update telegram.Update) {
 
 	// Проверка на сообщение

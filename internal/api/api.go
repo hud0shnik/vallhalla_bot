@@ -11,14 +11,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Структура респонса vall-halla-api
+// infoResponse - структура респонса vall-halla-api
 type infoResponse struct {
 	Success bool        `json:"success"`
 	Error   string      `json:"error"`
 	Drinks  []drinkInfo `json:"result"`
 }
 
-// Структура коктейля
+// drinkInfo - структура коктейля
 type drinkInfo struct {
 	Name           string `json:"name"`
 	Price          int    `json:"price"`
@@ -30,7 +30,7 @@ type drinkInfo struct {
 	Description    string `json:"description"`
 }
 
-// Функция отправки рецептов
+// SearchDrinks - функция отправки рецептов
 func SearchDrinks(botUrl string, chatId int, parameters []string) {
 
 	// Запрос для получения рецептов

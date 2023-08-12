@@ -66,8 +66,7 @@ func SearchDrinks(botUrl string, chatId int, parameters []string) {
 		return
 	}
 	var response infoResponse
-	err = json.Unmarshal(body, &response)
-	if err != nil {
+	if err := json.Unmarshal(body, &response); err != nil {
 		logrus.Printf("json.Unmarshal error: %s", err)
 		telegram.SendMsg(botUrl, chatId, "internal error")
 		return
@@ -78,7 +77,8 @@ func SearchDrinks(botUrl string, chatId int, parameters []string) {
 		telegram.SendMsg(botUrl, chatId, fmt.Sprintf(
 			"<b><pre>%s</pre></b>\nIt's a <b>%s</b>, <b>%s</b> and <b>%s</b> drink coasting <b>$%d</b>\n"+
 				"<b>Recipe</b> - %s\n<b>Shortcut</b> - <u>%s</u>\n\n<i>\"%s\"</i>",
-			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type, drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
+			drink.Name, drink.Flavour, drink.Primary_Type, drink.Secondary_Type,
+			drink.Price, drink.Recipe, drink.Shortcut, drink.Description))
 	}
 
 }

@@ -52,8 +52,7 @@ func GetUpdates(botUrl string, offset int) ([]Update, error) {
 		return nil, err
 	}
 	var restResponse telegramResponse
-	err = json.Unmarshal(body, &restResponse)
-	if err != nil {
+	if err := json.Unmarshal(body, &restResponse); err != nil {
 		return nil, err
 	}
 
